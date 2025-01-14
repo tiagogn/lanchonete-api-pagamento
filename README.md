@@ -61,7 +61,9 @@ Em cada endpoint, existe um exemplo de requisição para teste.
 
 Ordem de execução dos endpoints:
 
-1. POST Produto/Cadastrar Produto
+1. POST Efetuar Pagamento
+2. GET Consultar Pagamento
+3. GET Listar Pagamentos
 
 ## Kubernetes
 
