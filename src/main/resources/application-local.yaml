@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://pagamento_user:pagamento_password@localhost:27017/
+      database: lanchonete
+
+lanchonete:
+  pedido:
+    url: http://localhost:8081/pedido

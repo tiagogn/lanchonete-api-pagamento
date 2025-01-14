@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "a07d556e-3836-4743-aaa5-98d040f71596",
+		"name": "Fiap - Lanchonete - Pagamento",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17259405"
+	},
+	"item": [
+		{
+			"name": "Pagamento",
+			"item": [
+				{
+					"name": "Efetuar Pagamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pedidoId\": \"{{pedidoId}}\",\n    \"valor\": 70,\n    \"formaPagamento\": \"DINHEIRO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/pagamento/v1/pagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamento",
+								"v1",
+								"pagamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Pagamento",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pedidoId\": \"{{pedidoId}}\",\n    \"valor\": 40.0,\n    \"formaPagamento\": \"PIX\",\n    \"status\": \"APROVADO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/pagamento/v1/pagamento/:pedidoId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamento",
+								"v1",
+								"pagamento",
+								":pedidoId"
+							],
+							"variable": [
+								{
+									"key": "pedidoId",
+									"value": "8d671056-ee15-4bd2-98f3-bdfcaf9a7f37"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista Pagamentos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pedidoId\": \"{{pedidoId}}\",\n    \"valor\": 40.0,\n    \"formaPagamento\": \"PIX\",\n    \"status\": \"APROVADO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/pagamento/v1/pagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamento",
+								"v1",
+								"pagamento"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/pagamento/actuator/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pagamento",
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

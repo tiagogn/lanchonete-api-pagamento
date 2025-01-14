@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: ${springProfile:local}
+  application:
+    name: lanchonete-api-pagamento
+server:
+  servlet:
+    context-path: /pagamento
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
