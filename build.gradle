@@ -75,5 +75,11 @@ sonar {
 		property "sonar.projectKey", "tiagogn_lanchonete-api-pagamento"
 		property "sonar.organization", "fiap-lanchonete-soat8"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.exclusions", "**/build/**," +
+				"**/test/**,**/src/test/**," +
+				"**/src/main/resources/**," +
+				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/config/**," +
+				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/request/**," +
+				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/response/**"
 	}
 }

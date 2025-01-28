@@ -29,7 +29,7 @@ class PagamentoController(
             valor = pagamento.valor.toDouble(),
             formaPagamento = pagamento.formaPagamento.name,
             dataPagamento = pagamento.dataPagamento.toString(),
-            mensagem = "Pagamento efetuado com sucesso"
+            mensagem = pagamento.mensagem
         ))
     }
 
