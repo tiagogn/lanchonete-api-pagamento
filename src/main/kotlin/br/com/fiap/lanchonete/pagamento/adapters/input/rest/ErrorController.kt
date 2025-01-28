@@ -14,6 +14,8 @@ class ErrorController {
 
     val logger = org.slf4j.LoggerFactory.getLogger(ErrorController::class.java)
 
+    val erroInterno = "Erro interno"
+
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFoundException(e: ResourceNotFoundException): ResponseEntity<ErrorResponse> {
         logger.error("Recurso não encontrado", e)
@@ -34,9 +36,9 @@ class ErrorController {
 
     @ExceptionHandler(Exception::class)
     fun handleResourceNotFoundException(e: Exception): ResponseEntity<ErrorResponse> {
-        logger.error("Erro interno", e)
+        logger.error(erroInterno, e)
         return ResponseEntity(
-            ErrorResponse("Erro interno"),
+            ErrorResponse(erroInterno),
             org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
         )
     }
@@ -52,7 +54,7 @@ class ErrorController {
 
     @ExceptionHandler(PagamentoException::class)
     fun handleResourceNotFoundException(e: PagamentoException): ResponseEntity<ErrorResponse> {
-        logger.error("Erro interno", e)
+        logger.error(erroInterno, e)
         return ResponseEntity(
             ErrorResponse(e.message!!),
             org.springframework.http.HttpStatus.BAD_REQUEST
