@@ -5,7 +5,7 @@ import java.util.*
 
 interface PagamentoRepository {
     fun save(pagamento: Pagamento)
-    fun findById(id: UUID): Optional<Pagamento>
+    fun findById(id: String): Pagamento?
     fun findByPedidoId(pedidoId: String): Pagamento?
     fun findAll(): List<Pagamento>
 }

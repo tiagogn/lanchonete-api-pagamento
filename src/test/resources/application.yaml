@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: ${springProfile:test}
+  application:
+    name: lanchonete-api-pagamento
+server:
+  servlet:
+    context-path: /pagamento
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+lanchonete:
+  pedido:
+    url: http://dummy-pedido:8080/pedido

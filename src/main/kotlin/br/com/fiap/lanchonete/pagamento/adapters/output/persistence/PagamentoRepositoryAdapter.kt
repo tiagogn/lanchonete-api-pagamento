@@ -2,12 +2,13 @@ package br.com.fiap.lanchonete.pagamento.adapters.output.persistence
 
 import br.com.fiap.lanchonete.pagamento.core.application.ports.output.repository.PagamentoRepository
 import br.com.fiap.lanchonete.pagamento.core.domain.Pagamento
+import org.springframework.context.annotation.Profile
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Repository
-import java.util.*
 
+@Profile("!test")
 @Repository
 class PagamentoRepositoryAdapter(
     private val mongoTemplate: MongoTemplate
@@ -16,8 +17,8 @@ class PagamentoRepositoryAdapter(
         mongoTemplate.save(pagamento)
     }
 
-    override fun findById(id: UUID): Optional<Pagamento> {
-        return Optional.ofNullable(mongoTemplate.findById(id, Pagamento::class.java))
+    override fun findById(id: String): Pagamento? {
+        return mongoTemplate.findById(id, Pagamento::class.java)
     }
 
     override fun findByPedidoId(pedidoId: String): Pagamento? {
