@@ -19,7 +19,7 @@ class PagamentoServiceImpl(
         val pedido = pedidoGateway.consultarPedido(pagamentoInput.pedidoId)
             ?: throw PagamentoException("Pedido ${pagamentoInput.pedidoId} não encontrado")
 
-        var pagamento: Pagamento? = null
+        var pagamento: Pagamento?
 
         if (pedido.valor.compareTo(pagamentoInput.valor) != 0) {
              pagamento = Pagamento(
