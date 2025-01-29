@@ -67,7 +67,19 @@ tasks.named('test') {
 jacocoTestReport {
 	reports {
 		xml.required = true
+		csv.required = true
+		html.required = true
 	}
+
+	classDirectories.setFrom(files(classDirectories.files.collect {
+		fileTree(dir: it, exclude: [
+									'**/br/com/fiap/lanchonete/pagamento/adapters/config/**',
+									'**/br/com/fiap/lanchonete/pagamento/adapters/input/rest/ErrorController.class',
+									'**/br/com/fiap/lanchonete/pagamento/core/exceptions/**',
+									'**/br/com/fiap/lanchonete/pagamento/core/dto/**',
+									'**/br/com/fiap/lanchonete/pagamento/PagamentoApplication.class'])
+
+	}))
 }
 
 sonar {
@@ -80,6 +92,7 @@ sonar {
 				"**/src/main/resources/**," +
 				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/config/**," +
 				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/request/**," +
-				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/response/**"
+				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/response/**" +
+				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/ErrorController.kt"
 	}
 }
