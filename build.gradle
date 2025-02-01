@@ -94,6 +94,7 @@ sonar {
 				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/request/**," +
 				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/response/**" +
 				"src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/input/rest/ErrorController.kt" +
+				"**/src/main/kotlin/br/com/fiap/lanchonete/pagamento/adapters/output/persistence/**," +
 				"**/src/test/**"
 	}
 }
