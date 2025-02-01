@@ -2,7 +2,6 @@ package br.com.fiap.lanchonete.pagamento.adapters.input.rest
 
 import br.com.fiap.lanchonete.pagamento.PagamentoApplicationTests
 import br.com.fiap.lanchonete.pagamento.adapters.input.rest.request.PagamentoPedidoRequest
-import br.com.fiap.lanchonete.pagamento.core.application.ports.input.PagamentoService
 import br.com.fiap.lanchonete.pagamento.core.application.ports.output.gateway.PedidoGateway
 import br.com.fiap.lanchonete.pagamento.core.application.ports.output.repository.PagamentoRepository
 import br.com.fiap.lanchonete.pagamento.core.domain.FormaPagamento
@@ -30,9 +29,6 @@ class PagamentoControllerTest(
 
     @MockkBean
     lateinit var pedidoGateway: PedidoGateway
-
-    @Autowired
-    lateinit var pagamentoService: PagamentoService
 
     @Autowired
     lateinit var pagamentoRepository: PagamentoRepository
