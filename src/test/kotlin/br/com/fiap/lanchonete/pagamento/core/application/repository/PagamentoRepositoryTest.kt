@@ -37,10 +37,10 @@ class PagamentoRepositoryTest: PagamentoApplicationTests() {
     @Test
     fun `should find a payment by id`() {
 
-        val id = UUID.randomUUID().toString()
+        val id = UUID.randomUUID()
 
         val pagamento = Pagamento(
-            id,
+            id = id.toString(),
             valor = BigDecimal("10.00"),
             status = StatusPagamento.APROVADO,
             formaPagamento = FormaPagamento.DINHEIRO,
@@ -61,7 +61,6 @@ class PagamentoRepositoryTest: PagamentoApplicationTests() {
     fun `should find all payments`() {
 
         val pagamento1 = Pagamento(
-            id = UUID.randomUUID().toString(),
             valor = BigDecimal("10.00"),
             status = StatusPagamento.APROVADO,
             formaPagamento = FormaPagamento.DINHEIRO,
@@ -71,7 +70,6 @@ class PagamentoRepositoryTest: PagamentoApplicationTests() {
         )
 
         val pagamento2 = Pagamento(
-            id = UUID.randomUUID().toString(),
             valor = BigDecimal("10.00"),
             status = StatusPagamento.APROVADO,
             formaPagamento = FormaPagamento.DINHEIRO,

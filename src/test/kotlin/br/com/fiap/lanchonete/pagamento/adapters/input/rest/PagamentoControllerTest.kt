@@ -11,6 +11,7 @@ import br.com.fiap.lanchonete.pagamento.core.dto.PedidoInput
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,14 +38,17 @@ class PagamentoControllerTest(
     fun setup() {
         every { pedidoGateway.consultarPedido("1") }.answers {
             PedidoInput(
-                pedidoId = "1",
-                valor = BigDecimal.valueOf(100.00)
+                id = "1",
+                status = "RECEBIDO",
+                codigo = "1000",
+                total = BigDecimal.valueOf(100.00),
+                pagamento = "PENDENTE"
             )
         }
 
         every { pedidoGateway.consultarPedido("2") }.answers { null }
 
-        every { pedidoGateway.confirmarPagamento(any()) }.answers { Unit }
+        every { pedidoGateway.confirmarPagamento(any<String>(), any()) }.answers { Unit }
     }
 
     @Test
@@ -101,6 +105,39 @@ class PagamentoControllerTest(
         )
             .andExpect { status().is4xxClientError }
             .andExpect { jsonPath("$.message").value("Valor do pagamento não corresponde ao valor do pedido") }
+    }
+
+    @Test
+    fun `should not make a payment due to payment already made`() {
+
+        every { pedidoGateway.consultarPedido("1") }.answers {
+            PedidoInput(
+                id = "1",
+                status = "EM_PREPARACAO",
+                codigo = "1000",
+                total = BigDecimal.valueOf(100.00),
+                pagamento = "APROVADO"
+            )
+        }
+
+        every { pedidoGateway.confirmarPagamento(any<String>(), any()) }.answers { Unit }
+
+        val pagamentoPedidoRequest = PagamentoPedidoRequest(
+            pedidoId = "1",
+            valor = 100.0,
+            formaPagamento = "PIX",
+        )
+
+        mockMvc.perform(
+            post("/v1/pagamento")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(ObjectMapper().writeValueAsString(pagamentoPedidoRequest))
+        )
+            .andExpect { status().is4xxClientError }
+            .andExpect { jsonPath("$.message").value("Pagamento do pedido ${pagamentoPedidoRequest.pedidoId} já realizado") }
+
+        verify(exactly = 1) { pedidoGateway.consultarPedido("1") }
+        verify(exactly = 0) { pedidoGateway.confirmarPagamento(any<String>(), any()) }
     }
 
     @Test

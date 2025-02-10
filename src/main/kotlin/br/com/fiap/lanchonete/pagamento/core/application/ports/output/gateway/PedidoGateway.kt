@@ -5,5 +5,5 @@ import br.com.fiap.lanchonete.pagamento.core.dto.PedidoOutput
 
 interface PedidoGateway {
     fun consultarPedido(pedidoId: String): PedidoInput?
-    fun confirmarPagamento(pedidoOutput: PedidoOutput)
+    fun confirmarPagamento(pedidoId: String, pedidoOutput: PedidoOutput)
 }

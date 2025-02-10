@@ -14,7 +14,7 @@ class PedidoGatewayAdapter(
         return pedidoClient.consultarPedido(pedidoId)
     }
 
-    override fun confirmarPagamento(pedidoOutput: PedidoOutput) {
-        pedidoClient.confirmarPagamento(pedidoOutput)
+    override fun confirmarPagamento(pedidoId: String, pedidoOutput: PedidoOutput) {
+        pedidoClient.confirmarPagamento(pedidoId, pedidoOutput)
     }
 }

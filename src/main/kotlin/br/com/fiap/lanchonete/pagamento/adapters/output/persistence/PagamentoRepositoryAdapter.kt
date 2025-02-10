@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Profile("!test")
 @Repository
@@ -17,8 +18,8 @@ class PagamentoRepositoryAdapter(
         mongoTemplate.save(pagamento)
     }
 
-    override fun findById(id: String): Pagamento? {
-        return mongoTemplate.findById(id, Pagamento::class.java)
+    override fun findById(id: UUID): Pagamento? {
+        return mongoTemplate.findById(id.toString(), Pagamento::class.java)
     }
 
     override fun findByPedidoId(pedidoId: String): Pagamento? {

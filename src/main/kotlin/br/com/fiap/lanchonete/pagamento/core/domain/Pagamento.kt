@@ -10,7 +10,7 @@ import java.util.*
 data class Pagamento(
 
     @Id
-    var id: String? = null,
+    var id: String = UUID.randomUUID().toString(),
 
     val valor: BigDecimal,
 

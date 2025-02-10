@@ -19,9 +19,15 @@ class PagamentoServiceImpl(
         val pedido = pedidoGateway.consultarPedido(pagamentoInput.pedidoId)
             ?: throw PagamentoException("Pedido ${pagamentoInput.pedidoId} não encontrado")
 
+        pedido.pagamento.let {
+            if (it == "APROVADO") {
+                throw PagamentoException("Pagamento do pedido ${pedido.id} já realizado")
+            }
+        }
+
         var pagamento: Pagamento?
 
-        if (pedido.valor.compareTo(pagamentoInput.valor) != 0) {
+        if (pedido.total.compareTo(pagamentoInput.valor) != 0) {
              pagamento = Pagamento(
                 pedidoId = pagamentoInput.pedidoId,
                 valor = pagamentoInput.valor,
@@ -44,7 +50,7 @@ class PagamentoServiceImpl(
 
         pagamentoRepository.save(pagamento)
 
-        pedidoGateway.confirmarPagamento(PedidoOutput(
+        pedidoGateway.confirmarPagamento(pagamentoInput.pedidoId, PedidoOutput(
             pedidoId = pagamento.pedidoId,
             valor = pagamento.valor,
             formaPagamento = pagamento.formaPagamento.name,

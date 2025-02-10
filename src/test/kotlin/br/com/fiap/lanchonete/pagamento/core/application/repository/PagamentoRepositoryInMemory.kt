@@ -13,16 +13,14 @@ class PagamentoRepositoryInMemory: PagamentoRepository {
     private val pagamentos = mutableListOf<Pagamento>()
 
     override fun save(pagamento: Pagamento) {
-        pagamento.id = pagamento.id ?: UUID.randomUUID().toString()
-
         if (!pagamentos.contains(pagamento)) {
             pagamentos.add(pagamento)
         }
     }
 
-    override fun findById(id: String): Pagamento? {
+    override fun findById(id: UUID): Pagamento? {
         return pagamentos
-            .find { it.id == id }
+            .find { it.id == id.toString() }
     }
 
     override fun findByPedidoId(pedidoId: String): Pagamento? {

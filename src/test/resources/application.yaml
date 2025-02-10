@@ -17,4 +17,4 @@ management:
 
 lanchonete:
   pedido:
-    url: http://dummy-pedido:8080/pedido
+    url: http://localhost:8081/pedido

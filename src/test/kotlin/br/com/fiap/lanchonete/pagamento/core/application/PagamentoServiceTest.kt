@@ -33,14 +33,17 @@ class PagamentoServiceTest: PagamentoApplicationTests() {
     fun setup() {
         every { pedidoGateway.consultarPedido("1") }.answers {
             PedidoInput(
-                pedidoId = "1",
-                valor = BigDecimal.valueOf(100.00)
+                id = "1",
+                status = "RECEBIDO",
+                codigo = "1000",
+                total = BigDecimal.valueOf(100.00),
+                pagamento = "PENDENTE"
             )
         }
 
         every { pedidoGateway.consultarPedido("2") }.answers { null }
 
-        every { pedidoGateway.confirmarPagamento(any()) }.answers { Unit }
+        every { pedidoGateway.confirmarPagamento(any<String>(), any()) }.answers { Unit }
     }
 
     @Test
@@ -55,7 +58,7 @@ class PagamentoServiceTest: PagamentoApplicationTests() {
         val pagamento = pagamentoService.efetuarPagamento(pagamentoInput)
 
         verify(exactly = 1) { pedidoGateway.consultarPedido("1") }
-        verify(exactly = 1) { pedidoGateway.confirmarPagamento(any()) }
+        verify(exactly = 1) { pedidoGateway.confirmarPagamento(any<String>(), any()) }
 
         assertNotNull(pagamento)
         assertNotNull(pagamento.id)
@@ -77,6 +80,50 @@ class PagamentoServiceTest: PagamentoApplicationTests() {
         assertThrows<PagamentoException> {
             pagamentoService.efetuarPagamento(pagamentoInput)
         }
+    }
+
+    @Test
+    fun `should not make a payment with different value`() {
+
+        val pagamentoInput = PagamentoInput(
+            pedidoId = "1",
+            valor = BigDecimal(50.0),
+            formaPagamento = FormaPagamento.PIX
+        )
+
+        val pagamento = pagamentoService.efetuarPagamento(pagamentoInput)
+
+        assertNotNull(pagamento)
+        assertEquals("RECUSADO", pagamento.status.name)
+        assertEquals("Valor do pagamento não corresponde ao valor do pedido", pagamento.mensagem)
+    }
+
+    @Test
+    fun `should not make a payment already made`() {
+
+        every { pedidoGateway.consultarPedido("1") }.answers {
+            PedidoInput(
+                id = "1",
+                status = "RECEBIDO",
+                codigo = "1000",
+                total = BigDecimal.valueOf(100.00),
+                pagamento = "APROVADO"
+            )
+        }
+
+        every { pedidoGateway.confirmarPagamento(any<String>(), any()) }.answers { Unit }
+
+        val pagamentoInput = PagamentoInput(
+            pedidoId = "1",
+            valor = BigDecimal(100.0),
+            formaPagamento = FormaPagamento.PIX,
+        )
+
+        assertThrows<PagamentoException> {
+            pagamentoService.efetuarPagamento(pagamentoInput)
+        }
+        verify(exactly = 1) { pedidoGateway.consultarPedido("1") }
+        verify(exactly = 0) { pedidoGateway.confirmarPagamento(any<String>(), any()) }
     }
 
     @Test

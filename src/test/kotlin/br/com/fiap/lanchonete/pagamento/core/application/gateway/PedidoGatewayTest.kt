@@ -23,13 +23,16 @@ class PedidoGatewayTest: PagamentoApplicationTests() {
     @BeforeEach
     fun setup() {
         every { pedidoGateway.consultarPedido(any<String>()) }.returns(PedidoInput(
-            pedidoId = UUID.randomUUID().toString(),
-            valor = BigDecimal.valueOf(100.00)
+            id = UUID.randomUUID().toString(),
+            status = "RECEBIDO",
+            codigo = "1000",
+            total = BigDecimal.valueOf(100.00),
+            pagamento = "PENDENTE"
         ))
 
         every { pedidoGateway.consultarPedido("1") }.returns(null)
 
-        every { pedidoGateway.confirmarPagamento(any<PedidoOutput>()) }.returns(Unit)
+        every { pedidoGateway.confirmarPagamento(any<String>(), any<PedidoOutput>()) }.returns(Unit)
     }
 
     @Test
@@ -58,7 +61,7 @@ class PedidoGatewayTest: PagamentoApplicationTests() {
             mensagem = "Pagamento efetuado com sucesso"
         )
 
-        assertDoesNotThrow { pedidoGateway.confirmarPagamento(pedidoOutput) }
+        assertDoesNotThrow { pedidoGateway.confirmarPagamento(pedidoOutput.pedidoId, pedidoOutput) }
     }
 }
 

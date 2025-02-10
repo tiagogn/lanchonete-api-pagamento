@@ -24,7 +24,7 @@ class PagamentoController(
         val pagamento = pagamentoService.efetuarPagamento(pagamentoPedidoRequest.toModel())
 
         return ResponseEntity.ok(PagamentoPedidoResponse(
-            pagamentoId = pagamento.id!!,
+            pagamentoId = pagamento.id.toString(),
             pedidoId = pagamento.pedidoId.toString(),
             valor = pagamento.valor.toDouble(),
             formaPagamento = pagamento.formaPagamento.name,
@@ -40,7 +40,7 @@ class PagamentoController(
 
         return if (pagamento != null) {
             ResponseEntity.ok(PagamentoPedidoResponse(
-                pagamentoId = pagamento.id!!,
+                pagamentoId = pagamento.id.toString(),
                 pedidoId = pagamento.pedidoId,
                 valor = pagamento.valor.toDouble(),
                 formaPagamento = pagamento.formaPagamento.name,
@@ -59,7 +59,7 @@ class PagamentoController(
 
         return ResponseEntity.ok(pagamentos.map {
             PagamentoPedidoResponse(
-                pagamentoId = it.id!!,
+                pagamentoId = it.id,
                 pedidoId = it.pedidoId,
                 valor = it.valor.toDouble(),
                 formaPagamento = it.formaPagamento.name,
