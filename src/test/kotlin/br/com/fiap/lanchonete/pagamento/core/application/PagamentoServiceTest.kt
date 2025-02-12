@@ -91,11 +91,7 @@ class PagamentoServiceTest: PagamentoApplicationTests() {
             formaPagamento = FormaPagamento.PIX
         )
 
-        val pagamento = pagamentoService.efetuarPagamento(pagamentoInput)
-
-        assertNotNull(pagamento)
-        assertEquals("RECUSADO", pagamento.status.name)
-        assertEquals("Valor do pagamento não corresponde ao valor do pedido", pagamento.mensagem)
+        assertThrows<PagamentoException> {  pagamentoService.efetuarPagamento(pagamentoInput) }
     }
 
     @Test

@@ -5,29 +5,24 @@
     Para que eu possa pagar um produto
 
     Scenario: Realizar pagamento com sucesso
-      Given que eu tenho um pedido feito
+      Given que eu tenho um pedido feito com sucesso
       When eu realizo o pagamento
       Then o pagamento é realizado com sucesso
 
-    Scenario: Realizar pagamento com falha
-      Given que eu tenho um pedido feito
-      When eu realizo o pagamento
-      Then o pagamento falha
-
-    Scenario: Realizar um pagamento com valor diferente do pedido
-      Given que eu tenho um pedido feito
-      When eu realizo o pagamento
-      Then o pagamento falha
-
     Scenario: Realizar um pagamento de um pedido já pago
       Given que eu tenho um pedido feito e pago
-      When eu realizo o pagamento do pedido
+      When eu realizo o pagamento do pedido novamente
       Then o pagamento falha pois o pedido já foi pago
 
-    Scenario: Realizar a consulta de um pagamento
-      Given que eu tenho um pagamento realizado
-      When eu consulto o pagamento
-      Then o pagamento é exibido com sucesso
+    Scenario: Realizar um pagamento com valor diferente do pedido
+      Given que eu tenho um pedido feito com um valor
+      When eu realizo o pagamento com um valor diferente
+      Then o pagamento falha pois o valor é diferente
+
+    Scenario: Realizar a consulta de um pagamento para um pedido
+      Given que eu tenho um pedido feito e com pagamento realizado
+      When eu quero consultar o pagamento desse pedido
+      Then o pagamento desse pedido é exibido com sucesso
 
     Scenario: Realizar a consulta de um pagamento inexistente
       Given que eu tenho um pagamento inexistente de um pedido

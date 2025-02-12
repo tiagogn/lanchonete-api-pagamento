@@ -25,40 +25,32 @@ class PagamentoServiceImpl(
             }
         }
 
-        var pagamento: Pagamento?
+        if (pedido.total.compareTo(pagamentoInput.valor) != 0)
+            throw PagamentoException("Valor do pagamento não corresponde ao valor do pedido")
 
-        if (pedido.total.compareTo(pagamentoInput.valor) != 0) {
-             pagamento = Pagamento(
-                pedidoId = pagamentoInput.pedidoId,
-                valor = pagamentoInput.valor,
-                formaPagamento = pagamentoInput.formaPagamento,
-                dataPagamento = LocalDateTime.now(),
-                status = StatusPagamento.RECUSADO,
-                mensagem = "Valor do pagamento não corresponde ao valor do pedido"
-            )
-        }
-        else {
-            pagamento = Pagamento(
-                pedidoId = pagamentoInput.pedidoId,
-                valor = pagamentoInput.valor,
-                formaPagamento = pagamentoInput.formaPagamento,
-                dataPagamento = LocalDateTime.now(),
-                status = StatusPagamento.APROVADO,
-                mensagem = "Pagamento efetuado com sucesso"
-            )
-        }
+
+        val pagamento = Pagamento(
+            pedidoId = pagamentoInput.pedidoId,
+            valor = pagamentoInput.valor,
+            formaPagamento = pagamentoInput.formaPagamento,
+            dataPagamento = LocalDateTime.now(),
+            status = StatusPagamento.APROVADO,
+            mensagem = "Pagamento efetuado com sucesso"
+        )
 
         pagamentoRepository.save(pagamento)
 
-        pedidoGateway.confirmarPagamento(pagamentoInput.pedidoId, PedidoOutput(
-            pedidoId = pagamento.pedidoId,
-            valor = pagamento.valor,
-            formaPagamento = pagamento.formaPagamento.name,
-            status = pagamento.status.name,
-            pagamentoId = pagamento.id.toString(),
-            dataPagamento = pagamento.dataPagamento.toString(),
-            mensagem = pagamento.mensagem
-        ))
+        pedidoGateway.confirmarPagamento(
+            pagamentoInput.pedidoId, PedidoOutput(
+                pedidoId = pagamento.pedidoId,
+                valor = pagamento.valor,
+                formaPagamento = pagamento.formaPagamento.name,
+                status = pagamento.status.name,
+                pagamentoId = pagamento.id,
+                dataPagamento = pagamento.dataPagamento.toString(),
+                mensagem = pagamento.mensagem
+            )
+        )
 
         return pagamento
     }
