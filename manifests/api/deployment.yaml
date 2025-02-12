@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lanchonete-deployment
-  namespace: lanchonete
+  name: lanchonete-pagamento-deployment
+  namespace: lanchonete-pagamento
   labels:
-    app: ds-lanchonete
+    app: ds-lanchonete-pagamento
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: ds-lanchonete
+      app: ds-lanchonete-pagamento
   template:
     metadata:
       labels:
-        app: ds-lanchonete
+        app: ds-lanchonete-pagamento
     spec:
       containers:
-        - name: lanchonete
-          image: tiagogn/lanchonete:1.0
+        - name: lanchonete-pagamento
+          image: edureef42/lanchonete-pagamento:1.3
           ports:
-            - containerPort: 8080
+            - containerPort: 8082
           resources:
             limits:
               memory: "1024Mi"   # Limite de memória que o container pode usar
@@ -33,29 +33,31 @@ spec:
             - name: PG_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: lanchonete-configmap
+                  name: lanchonete-pagamento-configmap
                   key: PG_HOST
-            - name: POSTGRES_USER
+            - name: MONGO_USER
               valueFrom:
                 configMapKeyRef:
-                  name: postgres-configmap
-                  key: postgres_user
-            - name: POSTGRES_PASSWORD
+                  name: mongo-configmap
+                  key: mongo_user
+            - name: MONGO_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: mongo-secret
                   key: password
-            - name: POSTGRES_DB
-              value: "lanchonete"
+            - name: MONGO_DB
+              value: "lanchonetepagamento"
+            - name: LANCHONETE_PEDIDO_SERVICE_URL
+              value: "http://acadcb16eb4654d5a97e6e5f9b676476-1305982791.us-east-1.elb.amazonaws.com:8080"
           readinessProbe:
             httpGet:
-              path: /lanchonete/actuator/health
-              port: 8080
+              path: /lanchonete-pagamento/actuator/health
+              port: 8082
             initialDelaySeconds: 60
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /lanchonete/actuator/health
-              port: 8080
+              path: /lanchonete-pagamento/actuator/health
+              port: 8082
             initialDelaySeconds: 60
             periodSeconds: 20

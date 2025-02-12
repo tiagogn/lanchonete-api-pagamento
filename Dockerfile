@@ -12,7 +12,7 @@ RUN gradle clean build --no-daemon -x test
 
 FROM openjdk:17-alpine
 
-EXPOSE 8080
+EXPOSE 8082
 
 WORKDIR /app
 

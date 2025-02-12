@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  namespace: lanchonete-pagamento
+  labels:
+    app: svc-mongo
+spec:
+  ports:
+    - name: mongo
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
+  selector:
+    app: ds-mongo
