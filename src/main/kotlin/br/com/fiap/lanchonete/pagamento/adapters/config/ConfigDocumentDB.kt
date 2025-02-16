@@ -2,7 +2,6 @@ package br.com.fiap.lanchonete.pagamento.adapters.config
 
 import com.mongodb.MongoClientSettings
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer
-import org.springframework.boot.autoconfigure.mongo.MongoProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
