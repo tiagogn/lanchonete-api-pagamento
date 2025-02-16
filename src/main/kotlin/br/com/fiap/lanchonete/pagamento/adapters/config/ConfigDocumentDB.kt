@@ -1,7 +1,7 @@
 package br.com.fiap.lanchonete.pagamento.adapters.config
 
 import com.mongodb.MongoClientSettings
-import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer
+import com.mongodb.client.MongoClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -11,6 +11,12 @@ class ConfigDocumentDB(
 ) {
 
     @Bean
+    fun mongoClient(): MongoClient {
+        return com.mongodb.client.MongoClients.create(mongoClientSettings())
+    }
+
+
+    @Bean
     fun mongoClientSettings(): MongoClientSettings {
         var JAVA_HOME = System.getenv("JAVA_HOME")
         System.setProperty("javax.net.ssl.trustStore", "$JAVA_HOME/lib/security/cacerts")
@@ -18,16 +24,9 @@ class ConfigDocumentDB(
         return MongoClientSettings.builder()
             .applyToSslSettings{ builder ->
                 builder.enabled(true)
+                builder.invalidHostNameAllowed(true)
             }
             .build()
     }
 
-    @Bean
-    fun mongoClientSettingsBuilderCustomizer(): MongoClientSettingsBuilderCustomizer {
-        return MongoClientSettingsBuilderCustomizer { builder ->
-            builder.applyToSslSettings { ssl ->
-                ssl.enabled(true)
-            }
-        }
-    }
 }
