@@ -17,47 +17,47 @@ spec:
     spec:
       containers:
         - name: lanchonete-pagamento
-          image: edureef42/lanchonete-pagamento:1.3
+          image: edureef42/lanchonete-pagamento:1.9
+          imagePullPolicy: Always
           ports:
             - containerPort: 8082
-          resources:
-            limits:
-              memory: "1024Mi"   # Limite de memória que o container pode usar
-              cpu: "1000m"       # Limite de CPU
-            requests:
-              memory: "512Mi"   # Quantidade mínima de memória necessária
-              cpu: "250m"       # Quantidade mínima de CPU necessária
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "prd"
-            - name: PG_HOST
+            - name: MONGO_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: lanchonete-pagamento-configmap
-                  key: PG_HOST
+                  name: mongo-configmap
+                  key: MONGO_HOST
             - name: MONGO_USER
               valueFrom:
                 configMapKeyRef:
                   name: mongo-configmap
-                  key: mongo_user
+                  key: MONGO_USER
             - name: MONGO_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
-                  key: password
+                  key: mongo_password
             - name: MONGO_DB
-              value: "lanchonetepagamento"
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: MONGO_DB
             - name: LANCHONETE_PEDIDO_SERVICE_URL
-              value: "http://acadcb16eb4654d5a97e6e5f9b676476-1305982791.us-east-1.elb.amazonaws.com:8080"
-          readinessProbe:
-            httpGet:
-              path: /lanchonete-pagamento/actuator/health
-              port: 8082
-            initialDelaySeconds: 60
-            periodSeconds: 5
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: LANCHONETE_PEDIDO_SERVICE_URL
           livenessProbe:
             httpGet:
               path: /lanchonete-pagamento/actuator/health
               port: 8082
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /lanchonete-pagamento/actuator/health
+              port: 8082
+            initialDelaySeconds: 120
+            periodSeconds: 5

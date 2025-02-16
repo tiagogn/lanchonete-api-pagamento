@@ -6,5 +6,8 @@ metadata:
   labels:
     app: cm-mongo
 data:
-  mongo-db: "lanchonetepagamento"
-  mongo_user: "lanchonete_pagamento_user"
+  MONGO_HOST: "mongodb-cluster.cluster-czu4isocm08k.us-east-1.docdb.amazonaws.com"
+  MONGO_DB: "lanchonete_pagamento"
+  MONGO_USER: "lanchonete_pagamento_user"
+  LANCHONETE_PEDIDO_SERVICE_URL: "http://a1c592e5b9fcb424dbcf08123b82488a-2070148428.us-east-1.elb.amazonaws.com:8080/lanchonete-pedido"
+
