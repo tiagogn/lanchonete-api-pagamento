@@ -1,8 +1,11 @@
 spring:
+  cloud:
+    config:
+      enabled: false
   data:
     mongodb:
-      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:27017/${MONGO_DB}?tls=true&tlsCAFile=/tmp/global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
-      database: ${MONGO_DB}
+      uri: mongodb://${mongo_user}:${mongo_password}@${mongo_host}:27017?authSource=admin&authMechanism=SCRAM-SHA-1
+      database: ${mongo_db}
 
 lanchonete:
   pedido:

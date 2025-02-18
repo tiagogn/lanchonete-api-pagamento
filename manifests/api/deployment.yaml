@@ -17,47 +17,47 @@ spec:
     spec:
       containers:
         - name: lanchonete-pagamento
-          image: edureef42/lanchonete-pagamento:1.9
+          image: edureef42/lanchonete-pagamento:3.4
           imagePullPolicy: Always
           ports:
-            - containerPort: 8082
+            - containerPort: 8080
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "prd"
-            - name: MONGO_HOST
+            - name: mongo_host
               valueFrom:
                 configMapKeyRef:
-                  name: mongo-configmap
-                  key: MONGO_HOST
-            - name: MONGO_USER
+                  name: pagamento-configmap
+                  key: mongo_host
+            - name: mongo_user
               valueFrom:
                 configMapKeyRef:
-                  name: mongo-configmap
-                  key: MONGO_USER
-            - name: MONGO_PASSWORD
+                  name: pagamento-configmap
+                  key: mongo_user
+            - name: mongo_password
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
                   key: mongo_password
-            - name: MONGO_DB
+            - name: mongo_db
               valueFrom:
                 configMapKeyRef:
-                  name: mongo-configmap
-                  key: MONGO_DB
+                  name: pagamento-configmap
+                  key: mongo_db
             - name: LANCHONETE_PEDIDO_SERVICE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: mongo-configmap
+                  name: pagamento-configmap
                   key: LANCHONETE_PEDIDO_SERVICE_URL
           livenessProbe:
             httpGet:
               path: /lanchonete-pagamento/actuator/health
-              port: 8082
-            initialDelaySeconds: 120
+              port: 8080
+            initialDelaySeconds: 30
             periodSeconds: 20
           readinessProbe:
             httpGet:
               path: /lanchonete-pagamento/actuator/health
-              port: 8082
-            initialDelaySeconds: 120
-            periodSeconds: 5
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20

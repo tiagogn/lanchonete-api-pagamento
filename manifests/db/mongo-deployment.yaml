@@ -20,21 +20,21 @@ spec:
           image: mongo:latest
           imagePullPolicy: "IfNotPresent"
           env:
-            - name: MONGO_DB
+            - name: mongo_db
               valueFrom:
                 configMapKeyRef:
                   name: mongo-configmap
-                  key: mongo-dbname
-            - name: MONGO_USER
+                  key: mongo_db
+            - name: mongo_user
               valueFrom:
                 configMapKeyRef:
                   name: mongo-configmap
                   key: mongo_user
-            - name: MONGO_PASSWORD
+            - name: mongo_password
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
-                  key: password
+                  key: mongo_password
           volumeMounts:
             - mountPath: /var/lib/mongo/data
               name: mongo-db
