@@ -1,13 +1,13 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: lanchonete-hpa
-  namespace: lanchonete
+  name: lanchonete-pagamento-hpa
+  namespace: lanchonete-pagamento
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: lanchonete-deployment
+    name: lanchonete-pagamento-deployment
   minReplicas: 2
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80

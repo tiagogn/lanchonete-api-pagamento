@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  namespace: lanchonete-pagamento
+  labels:
+    app: ds-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ds-mongo
+  template:
+    metadata:
+      labels:
+        app: ds-mongo
+    spec:
+      containers:
+        - name: ds-mongo
+          image: mongo:latest
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: mongo_db
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: mongo_db
+            - name: mongo_user
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: mongo_user
+            - name: mongo_password
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo_password
+          volumeMounts:
+            - mountPath: /var/lib/mongo/data
+              name: mongo-db
+      volumes:
+        - name: mongo-db
+          persistentVolumeClaim:
+            claimName: mongo-pv-claim

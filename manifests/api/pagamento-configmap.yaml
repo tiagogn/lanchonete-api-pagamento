@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pagamento-configmap
+  namespace: lanchonete-pagamento
+  labels:
+    app: ds-lanchonete-pagamento
+data:
+  mongo_db: "lanchonete_pagamento"
+  mongo_user: "lanchonete_pagamento_user"
+  LANCHONETE_PEDIDO_SERVICE_URL: "lanchonete-pedido-service"
+  mongo_host: "10.96.36.92"
+

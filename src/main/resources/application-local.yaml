@@ -7,3 +7,5 @@ spring:
 lanchonete:
   pedido:
     url: http://localhost:8081/pedido
+server:
+  port: 9090

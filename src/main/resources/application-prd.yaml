@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+  data:
+    mongodb:
+      uri: mongodb://${mongo_user}:${mongo_password}@${mongo_host}:27017?authSource=admin&authMechanism=SCRAM-SHA-1
+      database: ${mongo_db}
+
+lanchonete:
+  pedido:
+    url: ${LANCHONETE_PEDIDO_SERVICE_URL}

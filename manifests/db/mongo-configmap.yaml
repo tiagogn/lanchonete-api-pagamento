@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-configmap
+  namespace: lanchonete-pagamento
+  labels:
+    app: cm-mongo
+data:
+  mongo_db: "lanchonete_pagamento"
+  mongo_user: "lanchonete_pagamento_user"
+
