@@ -48,6 +48,7 @@ dependencies {
 	testImplementation 'io.cucumber:cucumber-java:7.19.0'
 	testImplementation 'io.cucumber:cucumber-spring:7.20.0'
 	testImplementation 'io.cucumber:cucumber-junit:7.19.0'
+	testImplementation 'org.junit.vintage:junit-vintage-engine:5.11.1'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -63,8 +64,35 @@ dependencyManagement {
 	}
 }
 
+configurations {
+	cucumberRuntime {
+		extendsFrom testImplementation
+	}
+}
+
+tasks.register('integrationTest', Test) {
+	description = 'Run integration tests'
+	useJUnitPlatform()
+	testClassesDirs = sourceSets.test.output.classesDirs
+	classpath = sourceSets.test.runtimeClasspath
+	include '**/*CucumberTest.*'
+	maxParallelForks 2
+	testLogging {
+		events "passed", "skipped", "failed"
+		exceptionFormat = "full"
+		showStandardStreams = true
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+test {
+	maxParallelForks 2
+	filter {
+		exclude  '**/*CucumberTest.*'
+	}
 }
 
 jacocoTestReport {

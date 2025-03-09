@@ -11,7 +11,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import kotlin.test.assertEquals
 
-class PagamentoConsultaSteps: SpringIntegrationTest() {
+class PagamentoConsultaSteps() {
 
     var pagamentoPayload = ""
     lateinit var pagamentoResponse: HttpResponse<String>
