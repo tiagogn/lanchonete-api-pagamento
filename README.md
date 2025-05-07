@@ -4,6 +4,8 @@
 ![SpringBoot](https://img.shields.io/badge/SpringBoot-3.3-green)
 ![Docker](https://img.shields.io/badge/Docker-20.10-blue)
 ![Mongo](https://img.shields.io/badge/Mongo-4.4-blue)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tiagogn_lanchonete-api-pagamento&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tiagogn_lanchonete-api-pagamento)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tiagogn_lanchonete-api-pagamento&metric=coverage)](https://sonarcloud.io/summary/new_code?id=tiagogn_lanchonete-api-pagamento)
 
 O objetivo do projeto é disponibilizar APIs para os seguintes serviços da lanchonete:
 
